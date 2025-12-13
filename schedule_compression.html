@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Compression Mechanisms</title>
+    <style>
+        :root {
+            /* Color Palette */
+            --blue: #4E79A7;
+            --grey: #BAB0AC;
+            --orange: #F28E2B;
+            --red: #E15759;
+            --teal: #76B7B2;
+            --green: #59A14F;
+            --dark-text: #2c3e50;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 40px;
+            font-weight: 400;
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* Main Chart Container */
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 550px; 
+            box-sizing: border-box;
+        }
+
+        /* SVG Layer for Trapezoids */
+        .connector-layer {
+            display: block; 
+            position: absolute;
+            top: 60px; 
+            height: calc(100% - 120px); 
+            left: 0;
+            width: 100%;
+            z-index: 1; 
+        }
+
+        /* Schedule Bars */
+        .schedule-row {
+            display: flex;
+            position: absolute;
+            width: 100%;
+            height: 60px;
+            z-index: 10; 
+            background: transparent; 
+        }
+
+        .schedule-row.top {
+            top: 0;
+        }
+
+        .schedule-row.bottom {
+            bottom: 0;
+        }
+
+        /* Individual Phase Blocks */
+        .phase {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            z-index: 11; 
+        }
+        
+        .phase.narrow {
+            font-size: 10px;
+        }
+
+        .phase span.weeks {
+            font-weight: normal;
+            font-size: 10px;
+            opacity: 0.9;
+        }
+
+        /* Label Layer for Text inside Trapezoids */
+        .label-layer {
+            position: absolute;
+            top: 60px;
+            height: calc(100% - 120px);
+            left: 0;
+            width: 100%;
+            z-index: 5; 
+            pointer-events: none;
+        }
+
+        /* UPDATED STYLING FOR COMPACT BOXES */
+        .mechanism-label {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(255,255,255,0.95);
+            
+            /* TIGHTER PADDING */
+            padding: 3px 6px;
+            
+            border-radius: 4px;
+            
+            /* SMALLER FONT & TIGHTER LEADING */
+            font-size: 10.5px; 
+            line-height: 1.2;
+            
+            box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+            border: 1px solid #d0d0d0;
+            white-space: normal; /* Allow wrapping */
+            
+            /* Ensure box doesn't expand unnecessarily */
+            width: max-content;
+            max-width: 200px; /* Cap width but allow shrinking */
+        }
+        
+        .mechanism-label strong {
+            display: block;
+            color: #000;
+            font-size: 11px;
+            margin-bottom: 1px;
+        }
+
+        /* Time Axis */
+        .axis {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #ccc;
+            padding-top: 5px;
+        }
+
+        /* Side Labels */
+        .row-label {
+            position: absolute;
+            left: -130px;
+            width: 120px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+        .row-label small {
+            display: block;
+            font-weight: normal;
+            color: #666;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Mechanisms of Schedule Compression: Halving Data Center Build Time</h1>
+    <h2>How Dusty Robotics Enables Parallelization and De-Risking</h2>
+
+    <div class="chart-wrapper">
+        
+        <div class="row-label" style="top: 10px;">
+            Baseline Schedule
+            <small>80 Weeks</small>
+        </div>
+        <div class="row-label" style="bottom: 10px;">
+            Target Schedule
+            <small>40 Weeks</small>
+        </div>
+
+        <div class="schedule-row top">
+            <div class="phase" style="width: 5%; background-color: var(--blue);">Pre-Con<span class="weeks">4w</span></div>
+            <div class="phase" style="width: 15%; background-color: var(--grey);">Structure<span class="weeks">12w</span></div>
+            <div class="phase" style="width: 17.5%; background-color: var(--orange);">Interior Layout<span class="weeks">14w</span></div>
+            <div class="phase" style="width: 42.5%; background-color: var(--red);">MEP Rough-In<span class="weeks">34w</span></div>
+            <div class="phase" style="width: 15%; background-color: var(--teal);">Commissioning<span class="weeks">12w</span></div>
+            <div class="phase" style="width: 5%; background-color: var(--green);">Turnover<span class="weeks">4w</span></div>
+        </div>
+
+        <svg class="connector-layer" preserveAspectRatio="none" viewBox="0 0 100 100">
+            <polygon points="0,0 5,0 8.75,100 0,100" fill="var(--blue)" fill-opacity="0.25" stroke="var(--blue)" stroke-width="0.5" />
+            <polygon points="5,0 20,0 23.75,100 8.75,100" fill="var(--grey)" fill-opacity="0.15" stroke="var(--grey)" stroke-width="0.5" />
+            <polygon points="20,0 37.5,0 26.25,100 23.75,100" fill="var(--orange)" fill-opacity="0.35" stroke="var(--orange)" stroke-width="0.5" />
+            <polygon points="37.5,0 80,0 41.25,100 26.25,100" fill="var(--red)" fill-opacity="0.25" stroke="var(--red)" stroke-width="0.5" />
+            <polygon points="80,0 95,0 45,100 41.25,100" fill="var(--teal)" fill-opacity="0.35" stroke="var(--teal)" stroke-width="0.5" />
+            <polygon points="95,0 100,0 50,100 45,100" fill="var(--green)" fill-opacity="0.25" stroke="var(--green)" stroke-width="0.5" />
+        </svg>
+
+        <div class="label-layer">
+            <div class="mechanism-label" style="top: 50%; left: 4%;">
+                <strong>VDC Investment (+3w)</strong>
+                (Shift Left, Perfecting the model)
+            </div>
+
+            <div class="mechanism-label" style="top: 50%; left: 28%;">
+                <strong>Layout Speed (-12w)</strong>
+                (Robotic automation vs. manual tape)
+            </div>
+
+            <div class="mechanism-label" style="top: 22%; left: 53%; max-width: 180px;">
+                <strong>Parallelization (-12w)</strong>
+                (Build-Ahead of surrounding systems around critical path items)
+            </div>
+            <div class="mechanism-label" style="top: 50%; left: 48%; max-width: 160px;">
+                <strong>Reduced Congestion (-8w)</strong>
+                (Zonal work, Better flow, No stacking)
+            </div>
+            <div class="mechanism-label" style="top: 78%; left: 45%; max-width: 150px;">
+                <strong>Rework Reduction (-6w)</strong>
+                (No tear-out-and-fix time)
+            </div>
+
+            <div class="mechanism-label" style="top: 50%; left: 70%;">
+                <strong>Commissioning De-Risking (-5w)</strong>
+                (Verification vs. Troubleshooting)
+            </div>
+        </div>
+
+        <div class="schedule-row bottom">
+            <div class="phase" style="width: 8.75%; background-color: var(--blue);">Pre-Construction<span class="weeks">7w</span></div>
+            <div class="phase" style="width: 15%; background-color: var(--grey);">Structure<span class="weeks">12w</span></div>
+            <div class="phase narrow" style="width: 2.5%; background-color: var(--orange);">IL<span class="weeks">2w</span></div>
+            <div class="phase" style="width: 15%; background-color: var(--red);">MEP Rough-In<span class="weeks">12w</span></div>
+            <div class="phase narrow" style="width: 3.75%; background-color: var(--teal);">Cx<span class="weeks">3w</span></div>
+            <div class="phase" style="width: 5%; background-color: var(--green);">Turnover<span class="weeks">4w</span></div>
+            <div class="phase" style="width: 50%; background-color: transparent; border: none; color: #aaa; border: 1px dashed #ccc;">
+                40 Weeks Saved
+            </div>
+        </div>
+
+        <div class="axis">
+            <span>0</span>
+            <span>10</span>
+            <span>20</span>
+            <span>30</span>
+            <span>40</span>
+            <span>50</span>
+            <span>60</span>
+            <span>70</span>
+            <span>80 Weeks</span>
+        </div>
+    </div>
+
+</body>
+</html>
