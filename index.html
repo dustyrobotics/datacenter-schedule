@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dusty Robotics: 50% Schedule Reduction for Data Centers</title>
+    <title>Schedule Compression Visualizer</title>
+    <!-- We keep Tailwind for layout, but use inline styles for critical visuals -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -68,9 +69,11 @@
 
         <div class="bg-white p-2 md:p-10 rounded-2xl shadow-xl border border-slate-200 relative">
             
-            <div id="chart-container" class="relative h-[400px] md:h-[550px] w-full flex items-end justify-between px-2 md:px-12 pb-12 border-b border-slate-200">
+            <!-- ADJUSTED CHART CONTAINER PADDING -->
+            <div id="chart-container" class="relative h-[400px] md:h-[550px] w-full flex items-end justify-between px-2 md:px-12 pb-16 border-b border-slate-200">
                 
-                <div class="absolute inset-0 pointer-events-none flex flex-col justify-between pb-12">
+                <!-- ADJUSTED GRID LINE PADDING -->
+                <div class="absolute inset-0 pointer-events-none flex flex-col justify-between pb-16">
                     <div class="w-full h-px bg-slate-100"></div>
                     <div class="w-full h-px bg-slate-100"></div>
                     <div class="w-full h-px bg-slate-100"></div>
@@ -78,7 +81,8 @@
                     <div class="w-full h-px bg-slate-200"></div>
                 </div>
                 
-                <div class="absolute left-0 top-0 bottom-12 w-6 flex flex-col justify-between text-[10px] md:text-xs font-semibold text-slate-400 py-1 hidden sm:flex">
+                <!-- ADJUSTED AXIS LABEL PADDING -->
+                <div class="absolute left-0 top-0 bottom-16 w-6 flex flex-col justify-between text-[10px] md:text-xs font-semibold text-slate-400 py-1 hidden sm:flex">
                     <span>85w</span>
                     <span>60w</span>
                     <span>40w</span>
@@ -86,14 +90,18 @@
                     <span>0w</span>
                 </div>
 
+                <!-- 1. Baseline Stack -->
                 <div class="relative w-20 md:w-32 flex flex-col-reverse h-full group z-10 flex-shrink-0" id="stack-baseline">
-                    <div class="text-center mt-5 absolute -bottom-10 w-full font-bold text-slate-800 text-xs md:text-base">Baseline<br><span class="text-slate-400 font-medium text-[10px] md:text-sm">80 wks</span></div>
+                    <!-- ADJUSTED BOTTOM OFFSET -->
+                    <div class="text-center mt-5 absolute -bottom-12 w-full font-bold text-slate-800 text-xs md:text-base">Baseline<br><span class="text-slate-400 font-medium text-[10px] md:text-sm">80 wks</span></div>
                 </div>
 
                 <div class="flex-1 mx-1 md:mx-6 relative h-full z-0 min-w-0" id="waterfall-area"></div>
 
+                <!-- 3. Target Stack -->
                 <div class="relative w-20 md:w-32 flex flex-col-reverse h-full z-10 flex-shrink-0" id="stack-target">
-                    <div class="text-center mt-5 absolute -bottom-10 w-full font-bold text-blue-600 text-xs md:text-base">Target<br><span class="text-slate-400 font-medium text-[10px] md:text-sm">40 wks</span></div>
+                    <!-- ADJUSTED BOTTOM OFFSET -->
+                    <div class="text-center mt-5 absolute -bottom-12 w-full font-bold text-blue-600 text-xs md:text-base">Target<br><span class="text-slate-400 font-medium text-[10px] md:text-sm">40 wks</span></div>
                 </div>
             </div>
 
@@ -122,7 +130,7 @@
                     <span class="font-semibold text-slate-700">Dusty Robotics. (2024).</span> 
                     "Align Achieves Layout Accuracy and Efficiency in Data Centers." <em>Customer Case Study</em>.
                     (Supporting claims on trade stacking, supply chain resilience, and 784 person-hour savings).
-                </li>
+                </li
             </ol>
         </footer>
 
